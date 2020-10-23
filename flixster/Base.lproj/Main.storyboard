@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pPy-FN-uc9">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -104,6 +104,10 @@
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v0k-kd-diY">
                                 <rect key="frame" x="0.0" y="293" width="158" height="194"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="NR7-1e-BYa" appends="YES" id="fHH-Gf-g6W"/>
+                                </connections>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bae-ux-YY5">
                                 <rect key="frame" x="166" y="358" width="236" height="129"/>
@@ -139,8 +143,14 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rIH-ao-XdT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="NR7-1e-BYa">
+                    <connections>
+                        <action selector="didTap:" destination="d53-e5-u8s" id="sZU-kP-8Nq"/>
+                        <segue destination="1Vs-XO-Lgt" kind="presentation" identifier="webViewSegue" id="wVk-xA-GFe"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-2843" y="1621"/>
+            <point key="canvasLocation" x="-1884" y="1582"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="To0-fl-lLJ">
@@ -158,7 +168,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="78T-wY-6tM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2843" y="-634"/>
+            <point key="canvasLocation" x="-1852" y="-610"/>
         </scene>
         <!--Now Playing-->
         <scene sceneID="Y9U-Pa-MGK">
@@ -214,6 +224,7 @@
                                         <size key="customSize" width="143" height="201"/>
                                         <connections>
                                             <outlet property="posterView" destination="Z4I-Hb-dXC" id="Wdh-pB-X6y"/>
+                                            <segue destination="d53-e5-u8s" kind="show" identifier="movieDetailSegue" id="2gB-bb-jiq"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -250,12 +261,67 @@
             </objects>
             <point key="canvasLocation" x="-955" y="118"/>
         </scene>
+        <!--Web View Controller-->
+        <scene sceneID="81e-RD-KkM">
+            <objects>
+                <viewController id="1Vs-XO-Lgt" customClass="WebViewController" customModule="flixster" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L2G-2j-nW4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZQn-dG-B9F">
+                                <rect key="frame" x="0.0" y="20" width="414" height="443"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o35-EC-n2Q">
+                                <rect key="frame" x="130" y="636" width="154" height="42"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToDetailView:" destination="1Vs-XO-Lgt" eventType="touchUpInside" id="PWP-Kt-oOQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="S2V-we-DQP"/>
+                        <color key="backgroundColor" systemColor="labelColor"/>
+                        <constraints>
+                            <constraint firstItem="S2V-we-DQP" firstAttribute="bottom" secondItem="o35-EC-n2Q" secondAttribute="bottom" constant="130" id="7g8-aQ-OH9"/>
+                            <constraint firstItem="o35-EC-n2Q" firstAttribute="leading" secondItem="S2V-we-DQP" secondAttribute="leading" constant="130" id="KV3-Hr-1jj"/>
+                            <constraint firstItem="o35-EC-n2Q" firstAttribute="top" secondItem="ZQn-dG-B9F" secondAttribute="bottom" constant="173" id="rLR-aJ-qEJ"/>
+                            <constraint firstItem="S2V-we-DQP" firstAttribute="trailing" secondItem="o35-EC-n2Q" secondAttribute="trailing" constant="130" id="ryl-PH-yWu"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="back" destination="o35-EC-n2Q" id="apg-EX-cyc"/>
+                        <outlet property="webView" destination="ZQn-dG-B9F" id="1zx-gz-nZY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZLG-HQ-x3Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1884.057971014493" y="2396.6517857142858"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="2gB-bb-jiq"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="now_playing_tabbar_item" width="21" height="21"/>
         <image name="superhero_tabbar_item" width="21" height="23"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

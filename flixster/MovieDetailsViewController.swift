@@ -8,7 +8,7 @@
 import UIKit
 import AlamofireImage
 
-class MovieDetailsViewController: UIViewController {
+class MovieDetailsViewController: UIViewController,UIGestureRecognizerDelegate {
 
     @IBOutlet weak var backdropView: UIImageView!
     @IBOutlet weak var posterView: UIImageView!
@@ -33,8 +33,23 @@ class MovieDetailsViewController: UIViewController {
         let backdropUrl = URL(string: "https://image.tmdb.org/t/p/w780" + backdropPath)
         backdropView.af.setImage(withURL: backdropUrl!)
         // Do any additional setup after loading the view.
+        
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
+        gestureRecognizer.numberOfTapsRequired = 1
+        gestureRecognizer.numberOfTouchesRequired = 1
+        posterView.addGestureRecognizer(gestureRecognizer)
+        posterView.isUserInteractionEnabled = true
     }
     
+
+   
+
+    
+    @IBAction func didTap(_ sender: Any) {
+        performSegue(withIdentifier: "webViewSegue", sender: self)
+        
+        //self.dismiss(animated: true, completion: nil)
+    }
     
 
     /*
@@ -46,5 +61,11 @@ class MovieDetailsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let webViewController = segue.destination as! WebViewController
+        webViewController.movie = movie
+        
+    }
 
 }
